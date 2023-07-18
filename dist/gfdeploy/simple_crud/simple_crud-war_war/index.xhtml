@@ -7,14 +7,32 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <p:dataTable var="item" value="#{tipoRepuestoBean.lista}">
-            <p:column headerText="ID">
-                <h:outputText value="#{item.pkId}" />
-            </p:column>
-            <p:column headerText="Nombre">
-                <h:outputText value="#{item.nombre}" />
-            </p:column>
-        </p:dataTable>
+        <h:form id="form">
+            <p:commandButton value="CREAR" type="button" icon="pi pi-external-link" update=":form:datos" actionListener="#{tipoRepuestoBean.reinstanciar}" oncomplete="PF('dlg2').show();" />
+            
+            <p:dataTable var="item" value="#{tipoRepuestoBean.lista}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{item.pkId}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{item.nombre}" />
+                </p:column>
+            </p:dataTable>
+            <p:dialog header="Procesando" widgetVar="dlg2" minHeight="150" width="400" showEffect="fade" modal="true">
+                <h:panelGrid id="datos" columns="1">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="NOMBRE" />
+                        <p:inputText value="#{tipoRepuestoBean.objeto.nombre}" />
+                        <h:outputText value="DESCRIPCIÓN" />
+                        <p:inputText value="#{tipoRepuestoBean.objeto.descripcion}" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:commandButton type="button" icon="pi pi-external-link" value="#{tipoRepuestoBean.tipoAccion eq 1 ?'GRABAR':''}"  update=":form" actionListener="#{tipoRepuestoBean.procesar()}" onclick="PF('dlg2').hide();" />
+                        <p:commandButton value="CANCELAR" type="button" icon="pi pi-external-link" onclick="PF('dlg2').hide();" />
+                    </p:panelGrid>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
     </h:body>
 </html>
 
